@@ -8,22 +8,16 @@ requireRole("staff")
     <meta charset="UTF-8">
     <title>Staff Dashboard</title>
 
-    <!-- Tailwind for layout utilities (flex, grid, spacing) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Your global styling -->
     <link rel="stylesheet" href="../assets/style.css">
-    <!-- Animated background -->
     <link rel="stylesheet" href="../assets/anim.css">
-    <!-- for the graph using chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 <body>
-    <!-- Centered glass container -->
     <div class="min-h-screen flex items-center justify-center">
         <div class="glass w-full max-w-5xl space-y-6">
 
-            <!-- Header -->
             <header class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                     <h1 class="text-3xl md:text-4xl font-bold">Staff Dashboard</h1>
@@ -40,15 +34,13 @@ requireRole("staff")
                 <h2 class="text-xl font-semibold">Severity Overview</h2>
                 <p class="text-sm text-slate-400">Distribution of severity across all patient check-ins.</p>
 
-                <div class="bg-black/30 border border-cyan-500/30 rounded-xl p-4">
+                <div class="bg-black/30 border border-purple-500/30 rounded-xl p-4">
                     <canvas id="severityGraph" height="80"></canvas>
                 </div>
             </section>
 
 
-            <!-- Two-column layout -->
             <main class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Pending -->
                 <section class="space-y-3">
                     <h2 class="text-xl font-semibold">Pending Waitlist</h2>
                     <p class="text-sm text-slate-400">
@@ -58,7 +50,6 @@ requireRole("staff")
                     </div>
                 </section>
 
-                <!-- Approved -->
                 <section class="space-y-3">
                     <div class="flex items-center justify-between gap-3">
                         <div>
@@ -68,7 +59,6 @@ requireRole("staff")
                             </p>
                         </div>
 
-                        <!-- Filter dropdown -->
                         <div>
                             <label for="approved-filter" class="block text-xs mb-1">Filter</label>
                             <select class=" px-5 py-1" id="approved-filter">
@@ -86,7 +76,6 @@ requireRole("staff")
         </div>
     </div>
 
-    <!-- Fireflies background -->
     <div id="fireflies">
         <div class="firefly"></div><div class="firefly"></div><div class="firefly"></div>
         <div class="firefly"></div><div class="firefly"></div><div class="firefly"></div>
@@ -98,6 +87,32 @@ requireRole("staff")
     </div>
 
     <script>
+        // ========== TOGGLE LOGIC (NEW) ==========
+        window.toggleView = function(id, view) {
+            const noteDiv = document.getElementById(`notes-${id}`);
+            const aiDiv   = document.getElementById(`ai-${id}`);
+            const noteBtn = document.getElementById(`btn-notes-${id}`);
+            const aiBtn   = document.getElementById(`btn-ai-${id}`);
+
+            if (view === 'notes') {
+                noteDiv.classList.remove('hidden');
+                aiDiv.classList.add('hidden');
+                
+                // Active Style for Notes
+                noteBtn.className = "text-purple-400 font-bold border-b-2 border-purple-400 pb-1";
+                // Inactive Style for AI
+                aiBtn.className   = "text-slate-500 hover:text-purple-400 pb-1 transition-colors";
+            } else {
+                noteDiv.classList.add('hidden');
+                aiDiv.classList.remove('hidden');
+                
+                // Inactive Style for Notes
+                noteBtn.className = "text-slate-500 hover:text-purple-400 pb-1 transition-colors";
+                // Active Style for AI
+                aiBtn.className   = "text-purple-400 font-bold border-b-2 border-purple-400 pb-1";
+            }
+        }
+
         // ========== CARD + RENDER HELPERS ==========
         function createCard(item, mode = 'pending') {
             const div = document.createElement('div');
@@ -106,14 +121,21 @@ requireRole("staff")
             const severityValue = item.severity ?? '';
             const waitValue     = item.wait ?? '';
             const notesValue    = item.notes ?? '';
+            // NEW: Get AI Notes safely
+            const aiValue       = item.ai_notes ?? 'Analysis pending...'; 
 
-            // Shared header / info
+            // Unique IDs for toggling
+            const notesId = `notes-${item.id}`;
+            const aiId    = `ai-${item.id}`;
+            const btnNotesId = `btn-notes-${item.id}`;
+            const btnAiId    = `btn-ai-${item.id}`;
+
+            // NEW: Base HTML with Toggle Tabs
             let baseHtml = `
                 <div class="flex items-center justify-between gap-2">
                     <span class="font-none"><strong>Patient Name:</strong> ${item.name}</span>
                     <span class="text-xs px-2 py-1 rounded-full" 
-                        style="background: rgba(0,0,0,0.4); border: 1px solid rgba(126, 92, 255, 0.35);
-">
+                        style="background: rgba(0,0,0,0.4); border: 1px solid rgba(126, 92, 255, 0.35);">
                         CID: ${item.id}
                     </span>
                 </div>
@@ -121,13 +143,32 @@ requireRole("staff")
                     <strong>Patient ID:</strong> ${item.p_ID ?? 'N/A'}
                 </div>
                 
-                <div class="text-sm">
+                <div class="text-sm mb-2">
                     <strong>Staff Assigned (ID):</strong> ${item.assigned_staff_ID ?? 'None'}
                 </div>
-                <div class="text-sm">
-                    <strong>Notes:</strong> ${notesValue !== '' ? notesValue : '<span class="italic text-slate-400">None</span>'}
+
+                <div class="mt-3">
+                    <div class="flex gap-4 text-sm border-b border-white/10 mb-2">
+                        <button type="button" id="${btnNotesId}" onclick="toggleView(${item.id}, 'notes')" 
+                                class="text-purple-400 font-bold border-b-2 border-purple-400 pb-1">
+                            Patient Notes
+                        </button>
+                        <button type="button" id="${btnAiId}" onclick="toggleView(${item.id}, 'ai')" 
+                                class="text-slate-500 hover:text-purple-400 pb-1 transition-colors">
+                            ✨ AI Analysis
+                        </button>
+                    </div>
+
+                    <div class="bg-black/20 p-2 rounded min-h-[3rem]">
+                        <div id="${notesId}" class="block text-sm">
+                            ${notesValue !== '' ? notesValue : '<span class="italic text-slate-400">None</span>'}
+                        </div>
+                        <div id="${aiId}" class="hidden text-sm text-purple-200/90 italic">
+                            <strong class="text-purple-400 not-italic">Gemini:</strong> ${aiValue}
+                        </div>
+                    </div>
                 </div>
-            `;
+                `;
 
             let formHtml = '';
 
@@ -137,33 +178,33 @@ requireRole("staff")
                     <form class="mt-3 space-y-2 update-form">
                         <div class="text-sm space-y-1">
                             <label class="block"><strong>Edit Severity (1–5):</strong></label>
-                            <select name="severity" class="w-full">
-                                <option value="">Select Level</option>
-                                <option value="1" ${severityValue == 1 ? 'selected' : ''}>1 - Low</option>
+                            <select name="severity" class="w-full bg-black/30 border border-purple-500/40 rounded px-2 py-1">
+                                <option value="">Select ESI Level</option>
+                                <option value="1" ${severityValue == 1 ? 'selected' : ''}>1 - High</option>
                                 <option value="2" ${severityValue == 2 ? 'selected' : ''}>2</option>
                                 <option value="3" ${severityValue == 3 ? 'selected' : ''}>3 - Medium</option>
                                 <option value="4" ${severityValue == 4 ? 'selected' : ''}>4</option>
-                                <option value="5" ${severityValue == 5 ? 'selected' : ''}>5 - High</option>
+                                <option value="5" ${severityValue == 5 ? 'selected' : ''}>5 - Low</option>
                             </select>
                         </div>
 
                         <div class="text-sm space-y-1">
                             <label class="block"><strong>Edit Wait Time (mins):</strong></label>
                             <input type="number" name="wait" min="0"
-                                class="w-full px-2 py-1 rounded bg-black/30 border border-cyan-500/40"
+                                class="w-full px-2 py-1 rounded bg-black/30 border border-purple-500/40"
                                 value="${waitValue !== '' ? waitValue : ''}">
                         </div>
 
                         <div class="text-sm space-y-1">
-                            <label class="block"><strong>Edit Notes:</strong></label>
-                            <textarea name="notes" rows="2"
-                                class="w-full px-2 py-1 rounded bg-black/30 border border-cyan-500/40"
+                            <label class="block text-slate-400 text-xs">Edit Notes (Optional):</label>
+                            <textarea name="notes" rows="1"
+                                class="w-full px-2 py-1 rounded bg-black/30 border border-purple-500/40 text-xs"
                             >${notesValue ?? ''}</textarea>
                         </div>
 
                         <div class="text-sm space-y-1">
                             <label class="block"><strong>Update Status:</strong></label>
-                            <select name="status" class="w-full">
+                            <select name="status" class="w-full bg-black/30 border border-purple-500/40 rounded px-2 py-1">
                                 <option value="Waiting">Waiting</option>
                                 <option value="Approved">Approved</option>
                                 <option value="Completed">Completed</option>
@@ -172,7 +213,7 @@ requireRole("staff")
                         </div>
 
                         <button type="button"
-                                class="primary save-status-btn"
+                                class="primary save-status-btn mt-2 w-full py-2 bg-purple-600 hover:bg-purple-500 rounded text-white font-bold transition-all"
                                 data-id="${item.id}">
                             Save
                         </button>
@@ -181,7 +222,7 @@ requireRole("staff")
             } else if (mode === 'approved') {
                 // Approved: only status control (Approved <-> Completed), notes read-only
                 let approvedInfoHtml = `
-                    <div class="text-sm">
+                    <div class="mt-2 text-sm">
                         <strong>Current Severity:</strong> ${item.severity ?? 'N/A'}
                     </div>
                     <div class="text-sm">
@@ -196,14 +237,14 @@ requireRole("staff")
                     <form class="mt-3 space-y-2 update-form">
                         <div class="text-sm space-y-1">
                             <label class="block"><strong>Update Status:</strong></label>
-                            <select name="status" class="w-full">
+                            <select name="status" class="w-full bg-black/30 border border-purple-500/40 rounded px-2 py-1">
                                 <option value="Approved"  ${item.status === 'Approved'  ? 'selected' : ''}>Approved</option>
                                 <option value="Completed" ${item.status === 'Completed' ? 'selected' : ''}>Completed</option>
                             </select>
                         </div>
 
                         <button type="button"
-                                class="primary save-status-btn"
+                                class="primary save-status-btn mt-2 w-full py-2 bg-purple-600 hover:bg-purple-500 rounded text-white font-bold transition-all"
                                 data-id="${item.id}">
                             Save
                         </button>
