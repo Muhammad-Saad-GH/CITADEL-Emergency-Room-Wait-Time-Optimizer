@@ -1,10 +1,25 @@
+<<<<<<< HEAD
+=======
+# Citadel
+Using AI to help the ER wait time crisis
+
+<h2>Don't get lost! Project map:</h2>
+
+```text
+>>>>>>> d323be96521ee1438d88876646ef8539fae28362
 project/
 │
 ├── public/                          # All user-visible pages
 │   │
+<<<<<<< HEAD
 │   ├── index.php ✔                  # Landing page. Routes users to Login or Signup.
 │   ├── login.php ✔                  # Login form UI (POSTs to backend/auth/process_login.php)
 │   ├── signup.php ✔                 # Signup form UI (POSTs to backend/auth/process_signup.php)
+=======
+│   ├── index.php                    # Landing page. Routes users to Login or Signup.
+│   ├── login.php                    # Login form UI (POSTs to backend/auth/process_login.php)
+│   ├── signup.php                   # Signup form UI (POSTs to backend/auth/process_signup.php)
+>>>>>>> d323be96521ee1438d88876646ef8539fae28362
 │   │
 │   ├── admin/                       # Admin-only pages (requireRole("admin"))
 │   │   ├── home.php                 # Admin dashboard (Stats & Overview)
@@ -21,11 +36,19 @@ project/
 │
 │   ├── assets/                      # Frontend resources
 │   │   ├── style.css
+<<<<<<< HEAD
 │   │   ├── main.js
 │
 ├── backend/                         # Logic, DB, controllers (not user-visible)
 │   │
 │   ├── db.php ✔                     # mysqli connection
+=======
+│   │   ├── anim.css
+│
+├── backend/                         # Logic, DB, controllers (not user-visible)
+│   │
+│   ├── db.php                       # mysqli connection
+>>>>>>> d323be96521ee1438d88876646ef8539fae28362
 │   │
 │   ├── ai/                          # The "AI Application Layer" (Python Microservices)
 │   │   ├── triage_processor.py      # AI Model: Categorizes symptoms (Privacy-First)
@@ -33,9 +56,15 @@ project/
 │   │   └── .env                     # Stores your Gemini API Key securely
 │   │
 │   ├── auth/
+<<<<<<< HEAD
 │   │   ├── process_login.php ✔
 │   │   ├── process_signup.php ✔ 
 │   │   ├── logout.php ✔ 
+=======
+│   │   ├── process_login.php  
+│   │   ├── process_signup.php   
+│   │   ├── logout.php   
+>>>>>>> d323be96521ee1438d88876646ef8539fae28362
 │   │
 │   ├── patient/
 │   │   ├── create_checkin.php       # Sanitizes PII -> Calls backend/ai/triage_processor.py
@@ -59,4 +88,8 @@ project/
 │
 └── config/
     ├── config.php ✔
+<<<<<<< HEAD
     └── session.php ✔                # Auth middleware (Role-Based Access Control)
+=======
+    └── session.php ✔                # Auth middleware (Role-Based Access Control)
+>>>>>>> d323be96521ee1438d88876646ef8539fae28362
