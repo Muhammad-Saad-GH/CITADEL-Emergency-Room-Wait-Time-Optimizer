@@ -1,4 +1,5 @@
 <?php
+// backend/patient/create_checkin.php
 
 require_once(__DIR__ . "/../db.php");
 require_once(__DIR__ . "/../../config/session.php");
@@ -56,8 +57,52 @@ if (!is_null($currentCheckinId)) {
     exit;
 }
 
-$insertSql = "INSERT INTO Checkin (Hos_ID, Status, Notes, Approved)
-              VALUES (?, 'Waiting', ?, 0)";
+// ======================================================
+// START AI INTEGRATION (CONFIG VERSION)
+// ======================================================
+$severity = 3; 
+$ai_reasoning = "Pending Triage";
+
+// Ensure config is loaded (adjust path if your config.php is elsewhere)
+// require_once(__DIR__ . "/../../config/config.php"); 
+// ^^^ Uncomment above line if config.php isn't already loaded by session.php
+
+if ($notes !== 'None') {
+    $safe_notes = escapeshellarg($notes);
+    $scriptPath = __DIR__ . "/../ai/triage_processor.py"; 
+
+    // 1. USE VARIABLE FROM CONFIG.PHP
+    // We use the global keyword just in case we are inside a function scope, 
+    // though in this file it's likely global anyway.
+    global $PYTHON_PATH; 
+    
+    // Fallback if config is missing (Safety Net)
+    $pythonExec = isset($PYTHON_PATH) ? $PYTHON_PATH : 'python';
+
+    // 2. Build Command
+    $command = "\"$pythonExec\" \"$scriptPath\" $safe_notes 2>&1";
+
+    // 3. Execute
+    $output = shell_exec($command);
+    
+    // 4. Decode
+    $ai_result = json_decode($output, true);
+
+    if ($ai_result) {
+        $severity = (int)$ai_result['severity_score'];
+        $ai_reasoning = $ai_result['medical_reasoning']; 
+    } else {
+        error_log("AI Triage Failed. Command: $command Output: $output");
+        $ai_reasoning = "AI Service Unavailable - Manual Review Required";
+    }
+}
+// ======================================================
+// END AI INTEGRATION
+// ======================================================
+
+// Updated SQL to include Severity and AI_reasoning
+$insertSql = "INSERT INTO Checkin (Hos_ID, Status, Notes, Approved, Severity, AI_reasoning)
+              VALUES (?, 'Waiting', ?, 0, ?, ?)";
 
 $insertStmt = $conn->prepare($insertSql);
 if (!$insertStmt) {
@@ -65,7 +110,8 @@ if (!$insertStmt) {
     exit;
 }
 
-$insertStmt->bind_param("is", $hosId, $notes);
+// Bind params: i (int), s (string), i (int), s (string)
+$insertStmt->bind_param("isis", $hosId, $notes, $severity, $ai_reasoning);
 
 if (!$insertStmt->execute()) {
     $insertStmt->close();
@@ -92,3 +138,4 @@ $conn->close();
 
 header("Location: ../../public/patient/checkin.php?success=1");
 exit;
+?>
