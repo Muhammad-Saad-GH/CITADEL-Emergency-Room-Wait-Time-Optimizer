@@ -1,0 +1,277 @@
+/* ----Animated Background---- */
+.dark-bg {
+    background: url('bg.png');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Firefly Background */
+
+#fireflies {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* base firefly style */
+.firefly {
+    position: absolute;
+    width: 0.4vw;
+    height: 0.4vw;
+    border-radius: 50%;
+    left: 0;
+    top: 0;
+    transform-style: preserve-3d;
+    animation: drift 120s ease-in-out infinite alternate;
+}
+
+
+.firefly::before,
+.firefly::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.firefly::before {
+    background: black;
+    opacity: 0.4;
+    animation: rotate 10s linear infinite;
+}
+
+.firefly::after {
+    background: white;
+    opacity: 0;
+    box-shadow: 0 0 0vw 0vw rgb(0, 213, 255);
+    animation: flash 4.5s ease-in-out infinite;
+}
+/*Manually randomize each firefly's movement*/
+.firefly:nth-child(1)  { left: 12%; top: 18%; }
+.firefly:nth-child(2)  { left: 82%; top: 15%; }
+.firefly:nth-child(3)  { left: 45%; top: 75%; }
+.firefly:nth-child(4)  { left: 25%; top: 10%; }
+.firefly:nth-child(5)  { left: 70%; top: 60%; }
+.firefly:nth-child(6)  { left: 5%;  top: 55%; }
+.firefly:nth-child(7)  { left: 90%; top: 35%; }
+.firefly:nth-child(8)  { left: 38%; top: 8%;  }
+.firefly:nth-child(9)  { left: 60%; top: 20%; }
+.firefly:nth-child(10) { left: 88%; top: 80%; }
+
+.firefly:nth-child(11) { left: 22%; top: 50%; }
+.firefly:nth-child(12) { left: 10%; top: 40%; }
+.firefly:nth-child(13) { left: 95%; top: 55%; }
+.firefly:nth-child(14) { left: 35%; top: 90%; }
+.firefly:nth-child(15) { left: 55%; top: 30%; }
+.firefly:nth-child(16) { left: 75%; top: 12%; }
+.firefly:nth-child(17) { left: 18%; top: 32%; }
+.firefly:nth-child(18) { left: 48%; top: 72%; }
+.firefly:nth-child(19) { left: 12%; top: 88%; }
+.firefly:nth-child(20) { left: 80%; top: 25%; }
+
+@keyframes drift {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes rotate {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes flash {
+  0%, 30%, 100% {
+    opacity: 0;
+    box-shadow: 0 0 0vw 0vw rgb(190, 160, 255);
+  }
+  5% {
+    opacity: 1;
+    box-shadow: 0 0 2vw 0.4vw rgb(190, 160, 255);
+  }
+}
+
+.firefly:nth-child(1)  { animation-name: move1; }
+@keyframes move1 {
+  0%   { transform: translateX(-12vw) translateY(15vh) scale(0.7); }
+  25%  { transform: translateX(28vw)  translateY(-22vh) scale(0.4); }
+  50%  { transform: translateX(-35vw) translateY(12vh) scale(0.9); }
+  75%  { transform: translateX(18vw)  translateY(-28vh) scale(0.3); }
+  100% { transform: translateX(-10vw) translateY(20vh) scale(0.8); }
+}
+
+.firefly:nth-child(2)  { animation-name: move2; }
+@keyframes move2 {
+  0%   { transform: translateX(20vw)  translateY(-10vh) scale(0.5); }
+  25%  { transform: translateX(-25vw) translateY(30vh)  scale(0.8); }
+  50%  { transform: translateX(35vw)  translateY(-20vh) scale(0.4); }
+  75%  { transform: translateX(-15vw) translateY(-30vh) scale(0.9); }
+  100% { transform: translateX(10vw)  translateY(25vh)  scale(0.6); }
+}
+
+.firefly:nth-child(3)  { animation-name: move3; }
+@keyframes move3 {
+  0%   { transform: translateX(5vw)   translateY(10vh)  scale(0.3); }
+  25%  { transform: translateX(-30vw) translateY(-15vh) scale(0.9); }
+  50%  { transform: translateX(25vw)  translateY(20vh)  scale(0.5); }
+  75%  { transform: translateX(-40vw) translateY(5vh)   scale(0.7); }
+  100% { transform: translateX(15vw)  translateY(-25vh) scale(1.0); }
+}
+
+.firefly:nth-child(4)  { animation-name: move4; }
+@keyframes move4 {
+  0%   { transform: translateX(-18vw) translateY(-12vh) scale(0.6); }
+  25%  { transform: translateX(22vw)  translateY(25vh)  scale(0.8); }
+  50%  { transform: translateX(-28vw) translateY(-30vh) scale(0.4); }
+  75%  { transform: translateX(35vw)  translateY(15vh)  scale(0.7); }
+  100% { transform: translateX(-10vw) translateY(-22vh) scale(0.9); }
+}
+
+.firefly:nth-child(5)  { animation-name: move5; }
+@keyframes move5 {
+  0%   { transform: translateX(15vw)  translateY(-20vh) scale(0.7); }
+  25%  { transform: translateX(-28vw) translateY(12vh)  scale(0.3); }
+  50%  { transform: translateX(18vw)  translateY(28vh)  scale(0.9); }
+  75%  { transform: translateX(-35vw) translateY(-10vh) scale(0.6); }
+  100% { transform: translateX(25vw)  translateY(15vh)  scale(0.8); }
+}
+
+.firefly:nth-child(6)  { animation-name: move6; }
+@keyframes move6 {
+  0%   { transform: translateX(-22vw) translateY(10vh)  scale(0.4); }
+  25%  { transform: translateX(30vw)  translateY(-12vh) scale(0.7); }
+  50%  { transform: translateX(-15vw) translateY(20vh)  scale(0.9); }
+  75%  { transform: translateX(10vw)  translateY(-30vh) scale(0.3); }
+  100% { transform: translateX(-28vw) translateY(18vh)  scale(0.6); }
+}
+
+.firefly:nth-child(7)  { animation-name: move7; }
+@keyframes move7 {
+  0%   { transform: translateX(8vw)   translateY(18vh)  scale(0.5); }
+  25%  { transform: translateX(-35vw) translateY(-8vh)  scale(0.3); }
+  50%  { transform: translateX(32vw)  translateY(5vh)   scale(0.7); }
+  75%  { transform: translateX(-20vw) translateY(-25vh) scale(1.0); }
+  100% { transform: translateX(18vw)  translateY(20vh)  scale(0.6); }
+}
+
+.firefly:nth-child(8)  { animation-name: move8; }
+@keyframes move8 {
+  0%   { transform: translateX(-10vw) translateY(-5vh)  scale(0.9); }
+  25%  { transform: translateX(28vw)  translateY(25vh)  scale(0.4); }
+  50%  { transform: translateX(-25vw) translateY(15vh)  scale(0.6); }
+  75%  { transform: translateX(20vw)  translateY(-30vh) scale(0.3); }
+  100% { transform: translateX(-35vw) translateY(10vh)  scale(0.8); }
+}
+
+.firefly:nth-child(9)  { animation-name: move9; }
+@keyframes move9 {
+  0%   { transform: translateX(22vw)  translateY(-18vh) scale(0.4); }
+  25%  { transform: translateX(-20vw) translateY(30vh)  scale(0.7); }
+  50%  { transform: translateX(15vw)  translateY(-25vh) scale(0.9); }
+  75%  { transform: translateX(-30vw) translateY(12vh)  scale(0.5); }
+  100% { transform: translateX(25vw)  translateY(-8vh)  scale(0.8); }
+}
+
+.firefly:nth-child(10) { animation-name: move10; }
+@keyframes move10 {
+  0%   { transform: translateX(-30vw) translateY(-15vh) scale(0.8); }
+  25%  { transform: translateX(20vw)  translateY(25vh)  scale(0.3); }
+  50%  { transform: translateX(-12vw) translateY(10vh)  scale(0.6); }
+  75%  { transform: translateX(30vw)  translateY(-25vh) scale(1.0); }
+  100% { transform: translateX(-18vw) translateY(22vh)  scale(0.5); }
+}
+
+.firefly:nth-child(11) { animation-name: move11; }
+@keyframes move11 {
+  0%   { transform: translateX(12vw)  translateY(-25vh) scale(0.6); }
+  25%  { transform: translateX(-30vw) translateY(8vh)   scale(0.9); }
+  50%  { transform: translateX(35vw)  translateY(22vh)  scale(0.4); }
+  75%  { transform: translateX(-15vw) translateY(-30vh) scale(0.5); }
+  100% { transform: translateX(10vw)  translateY(15vh)  scale(0.8); }
+}
+
+.firefly:nth-child(12) { animation-name: move12; }
+@keyframes move12 {
+  0%   { transform: translateX(-25vw) translateY(20vh)  scale(0.7); }
+  25%  { transform: translateX(25vw)  translateY(-30vh) scale(0.3); }
+  50%  { transform: translateX(-8vw)  translateY(12vh)  scale(0.9); }
+  75%  { transform: translateX(30vw)  translateY(-15vh) scale(0.6); }
+  100% { transform: translateX(-22vw) translateY(25vh)  scale(0.4); }
+}
+
+.firefly:nth-child(13) { animation-name: move13; }
+@keyframes move13 {
+  0%   { transform: translateX(35vw)  translateY(10vh)  scale(1.0); }
+  25%  { transform: translateX(-15vw) translateY(-25vh) scale(0.4); }
+  50%  { transform: translateX(20vw)  translateY(30vh)  scale(0.6); }
+  75%  { transform: translateX(-35vw) translateY(5vh)   scale(0.8); }
+  100% { transform: translateX(12vw)  translateY(-18vh) scale(0.5); }
+}
+
+.firefly:nth-child(14) { animation-name: move14; }
+@keyframes move14 {
+  0%   { transform: translateX(-12vw) translateY(-30vh) scale(0.5); }
+  25%  { transform: translateX(20vw)  translateY(18vh)  scale(0.7); }
+  50%  { transform: translateX(-25vw) translateY(25vh)  scale(1.0); }
+  75%  { transform: translateX(32vw)  translateY(-10vh) scale(0.4); }
+  100% { transform: translateX(-18vw) translateY(15vh)  scale(0.9); }
+}
+
+.firefly:nth-child(15) { animation-name: move15; }
+@keyframes move15 {
+  0%   { transform: translateX(30vw)  translateY(-5vh)  scale(0.7); }
+  25%  { transform: translateX(-20vw) translateY(22vh)  scale(0.5); }
+  50%  { transform: translateX(25vw)  translateY(-20vh) scale(1.0); }
+  75%  { transform: translateX(-35vw) translateY(30vh)  scale(0.3); }
+  100% { transform: translateX(15vw)  translateY(-15vh) scale(0.6); }
+}
+
+.firefly:nth-child(16) { animation-name: move16; }
+@keyframes move16 {
+  0%   { transform: translateX(-25vw) translateY(8vh)   scale(0.4); }
+  25%  { transform: translateX(35vw)  translateY(-18vh) scale(0.8); }
+  50%  { transform: translateX(-10vw) translateY(25vh)  scale(0.6); }
+  75%  { transform: translateX(18vw)  translateY(-30vh) scale(1.0); }
+  100% { transform: translateX(-30vw) translateY(10vh)  scale(0.5); }
+}
+
+.firefly:nth-child(17) { animation-name: move17; }
+@keyframes move17 {
+  0%   { transform: translateX(22vw)  translateY(20vh)  scale(0.6); }
+  25%  { transform: translateX(-30vw) translateY(-12vh) scale(0.9); }
+  50%  { transform: translateX(12vw)  translateY(-28vh) scale(0.4); }
+  75%  { transform: translateX(-20vw) translateY(30vh)  scale(0.7); }
+  100% { transform: translateX(30vw)  translateY(-8vh)  scale(1.0); }
+}
+
+.firefly:nth-child(18) { animation-name: move18; }
+@keyframes move18 {
+  0%   { transform: translateX(-18vw) translateY(-20vh) scale(0.8); }
+  25%  { transform: translateX(25vw)  translateY(30vh)  scale(0.5); }
+  50%  { transform: translateX(-35vw) translateY(12vh)  scale(0.3); }
+  75%  { transform: translateX(22vw)  translateY(-25vh) scale(0.7); }
+  100% { transform: translateX(-10vw) translateY(20vh)  scale(1.0); }
+}
+
+.firefly:nth-child(19) { animation-name: move19; }
+@keyframes move19 {
+  0%   { transform: translateX(10vw)  translateY(25vh)  scale(0.6); }
+  25%  { transform: translateX(-35vw) translateY(-5vh)  scale(0.9); }
+  50%  { transform: translateX(30vw)  translateY(-20vh) scale(0.4); }
+  75%  { transform: translateX(-18vw) translateY(18vh)  scale(0.8); }
+  100% { transform: translateX(22vw)  translateY(-30vh) scale(0.5); }
+}
+
+.firefly:nth-child(20) { animation-name: move20; }
+@keyframes move20 {
+  0%   { transform: translateX(-30vw) translateY(5vh)   scale(0.7); }
+  25%  { transform: translateX(18vw)  translateY(-25vh) scale(0.4); }
+  50%  { transform: translateX(-22vw) translateY(28vh)  scale(0.9); }
+  75%  { transform: translateX(30vw)  translateY(-15vh) scale(0.6); }
+  100% { transform: translateX(-15vw) translateY(20vh)  scale(0.8); }
+}
+

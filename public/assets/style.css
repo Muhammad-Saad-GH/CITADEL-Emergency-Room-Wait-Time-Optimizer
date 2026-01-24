@@ -1,0 +1,497 @@
+/* ----Global Styling Sheet---- */
+
+/* ---- Color Scheme ---- */
+:root {
+  --primary: #bfa7ff;        /* Soft electric violet */
+  --primary-hover: #a78bfa;  /* Slightly deeper violet */
+  
+  --text-main: #ede9fe;      /* Light violet-tinted white */
+  --text-muted: #b8addd;     /* Muted lavender gray */
+  
+  --bg-body: #0b0712;        /* Near-black purple */
+  --bg-light: #171022;       /* Subtle raised surface */
+  
+  --radius: 0.75rem;
+  --transition: 0.2s ease;
+}
+
+/* ---- Global Body ---- */
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-body);
+  color: var(--text-main);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  line-height: 1.6;
+}
+
+/* ---- Typography ---- */
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0 0 0.5em;
+  font-weight: 600;
+}
+
+h1 {
+  color: #ffffff;
+  text-shadow: 0 0 12px rgba(191, 167, 255, 0.45);
+
+}
+
+h2 {
+  color: #d1d5db; /* Tailwind gray-300 */
+  text-shadow: 0 0 8px rgba(191, 167, 255, 0.25);
+
+}
+
+.text-center {
+  margin-top: -3rem;
+}
+/* ---- Anchor Links (A Tags) ---- */
+a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+  border-radius: 0.25rem;
+  padding: 0.1rem 0.2rem;
+}
+
+a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(191, 167, 255, 0.45);
+}
+
+/* ---- Buttons ---- */
+button,
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+/* Neon Blue Button (Filled) */
+button.primary {
+  background: rgba(46, 34, 74, 0.95);
+  color: #fff;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 1px solid rgba(191, 167, 255, 0.25);
+  box-shadow: 0 0 12px rgba(126, 92, 255, 0.35);
+  transition: 0.2s ease;
+}
+
+button.primary:hover {
+  background: rgba(126, 92, 255, 1);
+  box-shadow: 0 0 18px rgba(126, 92, 255, 0.55);
+}
+
+/* Neon Outline Button */
+button.outline {
+  background: transparent;
+  color: #a5b4fc;
+  padding: 0.75rem 1.75rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border: 2px solid rgba(126, 92, 255, 0.25);
+  box-shadow: 0 0 12px rgba(126, 92, 255, 0.7);
+  transition: 0.2s ease;
+}
+
+button.outline:hover {
+  background: rgba(126, 92, 255, 0.15);
+  color: white;
+  box-shadow: 0 0 18px rgba(126, 92, 255, 0.55);
+}
+
+/* ---- Card ---- */
+.card {
+  background: var(--bg-light);
+  padding: 2rem;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* ---- Form ---- */
+/* Form wrapper (optional) */
+.form-card {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(126, 92, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 2.5rem;
+  border-radius: 1.2rem;
+  max-width: 600px;
+  width: 90%;
+  margin: 3rem auto;
+
+  box-shadow: 0 0 30px rgba(126, 92, 255, 0.15);
+}
+
+/* Labels */
+label {
+  color: #e0eaff;
+  font-weight: 500;
+  font-size: 0.95rem;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+/* Inputs, selects, and textareas */
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.75rem 2.8rem 0.75rem 1rem;
+  font-size: 1rem;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(126, 92, 255, 0.25);
+  border-radius: 0.75rem;
+  outline: none;
+  transition: 0.25s ease;
+  box-shadow: 0 0 10px rgba(0, 213, 255, 0.07) inset;
+}
+
+/*Dropdown Styling*/
+select {
+  appearance: none;
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+  color: #e2e8f0;
+
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%237e5cff' height='20' width='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'><polygon points='0,0 20,0 10,15'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 14px;
+
+  background-color: rgba(255, 255, 255, 0.06);
+  border-radius: 0.75rem;
+
+  border: 1px solid rgba(126, 92, 255, 0.25);
+  border-bottom: 2px solid rgba(126, 92, 255, 0.45);
+
+  outline: none;
+  transition: 0.25s ease;
+}
+
+select option {
+  padding: 0.8rem;
+  text-align: center;
+  font-size: 1rem;
+  background-color: #0d0d0f;
+  color: #e2e8f0;
+}
+select::-ms-value {
+  line-height: normal;
+}
+
+/* Focus glow effect */
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: rgb(126, 92, 255);
+  box-shadow: 0 0 12px rgba(126, 92, 255, 0.45),
+    0 0 6px rgba(126, 92, 255, 0.35) inset;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Error/invalid state */
+input:invalid {
+  border-color: rgb(255, 84, 84);
+  box-shadow: 0 0 10px rgba(255, 50, 50, 0.4);
+}
+
+/* Submit button inside forms */
+form button[type="submit"] {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* ---- Background ----*/
+.glass {
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+/* ================================================================= */
+/* ==================  DASHBOARD ADDITIONS  ========================= */
+/* ================================================================= */
+
+/* Layout for top bar on dashboard */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 2rem 1.5rem 2rem;
+}
+
+/* Info text next to title */
+.user-info {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+/* Reuse .btn but specialize variants for links/buttons */
+.btn-primary {
+  background: rgba(46, 34, 74, 0.95);
+
+
+  color: #fff;
+  border: 1px solid rgba(191, 167, 255, 0.25);
+  box-shadow: 0 0 12px rgba(126, 92, 255, 0.35);
+
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: rgba(126, 92, 255, 1);
+  box-shadow: 0 0 18px rgba(126, 92, 255, 0.55);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #a5b4fc;
+  border: 2px solid rgba(126, 92, 255, 0.7);
+  box-shadow: 0 0 12px rgba(126, 92, 255, 0.25);
+  text-decoration: none;
+}
+
+.btn-outline:hover {
+  background: rgba(126, 92, 255, 0.15);
+  color: #ffffff;
+  box-shadow: 0 0 18px rgba(126, 92, 255, 0.55);
+}
+
+/* Table styling for dashboard lists */
+table {
+  width: calc(100% - 4rem);
+  margin: 0 2rem 2rem 2rem;
+  border-collapse: collapse;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+}
+
+th,
+td {
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+th {
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+  font-weight: 600;
+}
+
+tr:nth-child(even) {
+  background: rgba(15, 23, 42, 0.7);
+}
+
+tr:hover {
+  background: rgba(37, 99, 235, 0.15);
+}
+
+/* Status pill tags */
+.status-tag {
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Specific statuses with neon-ish tones */
+.status-Waiting {
+  background: rgba(250, 204, 21, 0.2);
+  color: #facc15;
+}
+
+.status-In-Treatment {
+  background: rgba(126, 92, 255, 0.2);
+  color: rgb(126, 92, 255);
+}
+
+.status-Completed {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+.status-Cancelled {
+  background: rgba(248, 113, 113, 0.2);
+  color: #f97373;
+}
+
+#emptyMessage {
+  margin: 0 2rem 2rem 2rem;
+  color: var(--text-muted);
+}
+
+.summary-box {
+  margin: 0 2rem 1rem 2rem;
+  padding: 0.85rem 1rem;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 0.75rem;
+  border: 1px solid rgba(126, 92, 255, 0.25);
+  box-shadow: 0 0 18px rgba(0, 213, 255, 0.08);
+  font-size: 0.9rem;
+  color: #e5e7eb;
+}
+.dashboard-flex {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 3rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+
+  .dashboard-card {
+    background: rgba(15, 23, 42, 0.75);
+    border: 1px solid rgba(126, 92, 255, 0.15);
+    backdrop-filter: blur(8px);
+    padding: 1.75rem;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 900px;
+    box-shadow: 0 0 18px rgba(0, 213, 255, 0.1);
+  }
+
+  .dashboard-card table {
+    width: 100% !important;
+    margin: 1rem 0;
+  }
+
+  @media (max-width: 900px) {
+    .dashboard-flex {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+}
+.hospital-card {
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(126, 92, 255, 0.15);
+  box-shadow: 0 0 12px rgba(0, 213, 255, 0.08);
+  font-size: 0.9rem;
+}
+.hospital-card h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+.hospital-card p {
+  margin: 0.15rem 0;
+}
+/* Base hospital card */
+.hospital-card {
+  position: relative;
+  margin-top: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(126, 92, 255, 0.15);
+  box-shadow: 0 0 12px rgba(0, 213, 255, 0.08);
+  font-size: 0.9rem;
+}
+
+/* Hidden by default */
+.waittime-tooltip {
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.75rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(126, 92, 255, 0.12);
+  border: 1px solid rgba(126, 92, 255, 0.5);
+  font-size: 0.75rem;
+  color: #e5f6ff;
+  box-shadow: 0 0 12px rgba(126, 92, 255, 0.35);
+
+  display: none;
+}
+
+/* Show ONLY on hover */
+.hospital-card:hover .waittime-tooltip {
+  display: inline-flex;
+}
+
+/* Match hospital hover effect to check-in hover card */
+.hospital-card {
+  transition: 0.25s ease;
+}
+
+.hospital-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(126, 92, 255, 0.45);
+  box-shadow: 0 0 20px rgba(126, 92, 255, 0.35),
+    0 0 35px rgba(126, 92, 255, 0.15) inset;
+}
+/* Hide directions button by default */
+.directions-btn {
+  display: none;
+  margin-top: 0.75rem;
+  padding: 0.55rem 1.2rem;
+  background: #22c55e; /* Green 500 */
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: 0.2s ease;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+}
+
+/* Show on hover, matching waittime tooltip behavior */
+.hospital-card:hover .directions-btn {
+  display: inline-block;
+}
+
+/* Hover effect for the button */
+.directions-btn:hover {
+  background: #16a34a; /* Green 600 */
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.55);
+  transform: translateY(-2px);
+}
+
+/* Tooltip stays bottom-right */
+.waittime-tooltip {
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.75rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(126, 92, 255, 0.12);
+  border: 1px solid rgba(126, 92, 255, 0.5);
+  font-size: 0.75rem;
+  color: #e5f6ff;
+  box-shadow: 0 0 12px rgba(126, 92, 255, 0.35);
+
+
+  display: none; /* Hidden by default */
+}
+
+.hospital-card:hover .waittime-tooltip {
+  display: inline-flex;
+}
