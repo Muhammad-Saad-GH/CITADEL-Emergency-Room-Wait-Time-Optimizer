@@ -10,16 +10,15 @@ load_dotenv()
 
 # Setup Client
 api_key = os.getenv("GEMINI_API_KEY") 
+client = genai.Client(api_key=api_key)
 
-client = genai.Client(api_key=api_key) # <--- NEW CLIENT SETUP
-
-def get_triage_assessment(age, sex, symptoms):
+# UPDATED: Only accepts one argument now
+def get_triage_assessment(symptoms):
     
-    # System Prompt
+    # System Prompt: Simplified to focus ONLY on the complaint
     system_instruction = f"""
     You are an expert Triage Nurse AI.
-    Analyze this patient: {age} years old, {sex}.
-    Complaint: {symptoms}
+    Patient Complaint: {symptoms}
 
     Task:
     1. Assign an Emergency Severity Index (ESI) level (1-5).
@@ -33,9 +32,8 @@ def get_triage_assessment(age, sex, symptoms):
     """
 
     try:
-        # NEW CALL STRUCTURE
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-flash-lite-latest",
             contents=system_instruction,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json", 
@@ -61,9 +59,9 @@ def get_triage_assessment(age, sex, symptoms):
         }
 
 if __name__ == "__main__":
-    p_age = sys.argv[1] if len(sys.argv) > 1 else "Unknown"
-    p_sex = sys.argv[2] if len(sys.argv) > 2 else "Unknown"
-    p_symptoms = sys.argv[3] if len(sys.argv) > 3 else "No symptoms provided"
+    
+    p_symptoms = sys.argv[1] if len(sys.argv) > 1 else "No symptoms provided"
 
-    result = get_triage_assessment(p_age, p_sex, p_symptoms)
+    result = get_triage_assessment(p_symptoms)
+    
     print(json.dumps(result))
