@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # backend/ai/triage_processor.py
 import sys
 import json
@@ -65,7 +64,7 @@ if __name__ == "__main__":
 
     result = get_triage_assessment(p_symptoms)
     
-=======
+    print(json.dumps(result))
 # backend/ai/triage_processor.py
 import sys
 import json
@@ -132,5 +131,4 @@ if __name__ == "__main__":
 
     result = get_triage_assessment(p_symptoms)
     
->>>>>>> d323be96521ee1438d88876646ef8539fae28362
     print(json.dumps(result))
