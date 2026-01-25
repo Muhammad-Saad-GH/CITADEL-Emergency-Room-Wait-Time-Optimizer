@@ -1,5 +1,7 @@
 # Citadel
+
 Using AI to help the ER wait time crisis
+
 <h2>Dependencies</h2>
 pip install scikit-learn google-genai python-dotenv
 
@@ -49,20 +51,22 @@ project/
 │   │
 │   ├── ai/                          # The "AI Application Layer" (Python Microservices)
 │   │   ├── triage_processor.py      # AI Model: Categorizes symptoms (Privacy-First)
-│   │   ├── wait_time_predictor.py   # Math Model: Calculates wait based on queue depth
-│   │   └── .env                     # Stores your Gemini API Key securely
+│   │   |── .env                     # Stores your Gemini API Key securely
+│   |   │── wait_time_predictor.py   # ML inference service that predicts patient wait times based on triage severity and current queue conditions
+|   |   │── train_regression.py      # Offline training script for the wait-time regression model
+│   |   │── severity_regression.pkl  # Pre-trained regression model mapping severity levels to expected service times
 │   │
 │   ├── auth/
-│   │   ├── process_login.php 
-│   │   ├── process_signup.php  
-│   │   ├── logout.php  
-│   │   ├── process_login.php  
-│   │   ├── process_signup.php   
-│   │   ├── logout.php   
+│   │   ├── process_login.php
+│   │   ├── process_signup.php
+│   │   ├── logout.php
+│   │   ├── process_login.php
+│   │   ├── process_signup.php
+│   │   ├── logout.php
 │   │
 │   ├── patient/
 │   │   ├── create_checkin.php       # Sanitizes PII -> Calls backend/ai/triage_processor.py
-│   │   ├── get_checkins.php         # History fetch
+│   │   ├── get_checkins.php         # History fetch & queue wait time getter
 │   │   ├── get_waitlist.php         # Fetches live queue position & AI prediction
 │   │   ├── get_hospitals.php        # Populates hospital dropdown
 │   │
@@ -81,5 +85,6 @@ project/
 │       ├── export_pdf.php           # Generates hospital status reports
 │
 └── config/
-    ├── config.php 
+    ├── config.php
     └── session.php                 # Auth middleware (Role-Based Access Control)
+```
