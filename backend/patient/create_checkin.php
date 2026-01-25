@@ -19,8 +19,14 @@ if (!$patient_id) {
 
 // Get form data
 $hosId = isset($_POST['hos_id']) ? (int)$_POST['hos_id'] : 0;
-$notes = trim($_POST['notes'] ?? '');
-
+$raw_notes = $_POST['notes'] ?? 'None';
+$age       = !empty($_POST['age']) ? $_POST['age'] : 'Unknown';
+$sex       = !empty($_POST['sex']) ? $_POST['sex'] : 'Unknown';
+$pain      = $_POST['pain'] ?? '0';
+$severity = 3; 
+$ai_reasoning = "Pending Triage";
+$context_header = "[Patient Context: Age: $age | Sex: $sex | Pain Level: $pain/10]";
+$notes = "$context_header\n$raw_notes";
 if ($hosId <= 0) {
     header("Location: ../../public/patient/checkin.php?error=Please+select+a+valid+hospital");
     exit;
@@ -60,8 +66,7 @@ if (!is_null($currentCheckinId)) {
 // ======================================================
 // START AI INTEGRATION (CONFIG VERSION)
 // ======================================================
-$severity = 3; 
-$ai_reasoning = "Pending Triage";
+
 
 // Ensure config is loaded (adjust path if your config.php is elsewhere)
 // require_once(__DIR__ . "/../../config/config.php"); 
