@@ -1,5 +1,15 @@
 # Citadel
 Using AI to help the ER wait time crisis
+<h2>Dependencies</h2>
+pip install scikit-learn google-genai python-dotenv
+
+<h2>Configurations + Keys</h2>
+config/config.php: python path, db credentials, google maps API key
+backend/ai/.env: AI API Key
+
+<h2>Steps to Run</h2>
+1. Navigate to the ai folder in the terminal: python train_regression.py
+2. We used WAMP to run our project, you can import our citadel.sql for mock data
 
 <h2>Don't get lost! Project map:</h2>
 
@@ -7,10 +17,6 @@ Using AI to help the ER wait time crisis
 project/
 │
 ├── public/                          # All user-visible pages
-│   │
-│   ├── index.php ✔                  # Landing page. Routes users to Login or Signup.
-│   ├── login.php ✔                  # Login form UI (POSTs to backend/auth/process_login.php)
-│   ├── signup.php ✔                 # Signup form UI (POSTs to backend/auth/process_signup.php)
 │   ├── index.php                    # Landing page. Routes users to Login or Signup.
 │   ├── login.php                    # Login form UI (POSTs to backend/auth/process_login.php)
 │   ├── signup.php                   # Signup form UI (POSTs to backend/auth/process_signup.php)
@@ -30,11 +36,11 @@ project/
 │
 │   ├── assets/                      # Frontend resources
 │   │   ├── style.css
-│   │   ├── main.js
+│   │   ├── anim.css
 │
 ├── backend/                         # Logic, DB, controllers (not user-visible)
 │   │
-│   ├── db.php ✔                     # mysqli connection
+│   ├── db.php                      # mysqli connection
 │   │   ├── anim.css
 │
 ├── backend/                         # Logic, DB, controllers (not user-visible)
@@ -47,9 +53,9 @@ project/
 │   │   └── .env                     # Stores your Gemini API Key securely
 │   │
 │   ├── auth/
-│   │   ├── process_login.php ✔
-│   │   ├── process_signup.php ✔ 
-│   │   ├── logout.php ✔ 
+│   │   ├── process_login.php 
+│   │   ├── process_signup.php  
+│   │   ├── logout.php  
 │   │   ├── process_login.php  
 │   │   ├── process_signup.php   
 │   │   ├── logout.php   
@@ -75,6 +81,5 @@ project/
 │       ├── export_pdf.php           # Generates hospital status reports
 │
 └── config/
-    ├── config.php ✔
-    └── session.php ✔                # Auth middleware (Role-Based Access Control)
-    └── session.php ✔                # Auth middleware (Role-Based Access Control)
+    ├── config.php 
+    └── session.php                 # Auth middleware (Role-Based Access Control)
