@@ -190,23 +190,19 @@ requireRole("patient");
                 <!-- Filled by JS -->
             </section>
 
-            <table id="checkinsTable" style="display:none;">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Hospital</th>
-                        <th>Severity</th>
-                        <th>Approval Status</th>
-                        <th>Wait Time (mins)</th>
-                        <th>Notes</th>
-                        <th>Completion Status</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <section class="dashboard-card">
+            <div class="flex justify-between items-end mb-4 border-b border-purple-500/30 pb-2">
+                <h2 class="text-xl font-bold text-white mb-0">Check-in Details</h2>
+                
+            </div>
 
-            <p id="emptyMessage">You have no check-ins.</p>
-        </section>
+            <section class="summary-box mb-6" id="summaryBox" style="display:none;">
+                </section>
+
+            <div id="checkinsGrid" class="space-y-6" style="display:none;"></div>
+
+            <p id="emptyMessage" class="text-gray-400 text-center py-4" style="display:none;">You have no check-ins.</p>
+        
     </div>
 
     <!--get key from config.php-->
@@ -223,88 +219,121 @@ requireRole("patient");
                 });
                 const data = await response.json();
 
-                const tbody = document.querySelector('#checkinsTable tbody');
-                const table = document.getElementById('checkinsTable');
+                const grid = document.getElementById('checkinsGrid'); // TARGET GRID
                 const emptyMsg = document.getElementById('emptyMessage');
                 const summaryBox = document.getElementById('summaryBox');
 
-                tbody.innerHTML = '';
+                grid.innerHTML = '';
                 summaryBox.style.display = 'none';
 
                 if (!response.ok || data.error) {
                     emptyMsg.textContent = data.error || 'Failed to load check-ins.';
                     emptyMsg.style.display = 'block';
-                    table.style.display = 'none';
+                    grid.style.display = 'none';
                     return;
                 }
 
                 if (!Array.isArray(data) || data.length === 0) {
-                    emptyMsg.textContent =
-                        'You have no active check-ins. Use "Create New Check-in" to submit one.';
+                    emptyMsg.textContent = 'You have no active check-ins. Use "Create New Check-in" to submit one.';
                     emptyMsg.style.display = 'block';
-                    table.style.display = 'none';
+                    grid.style.display = 'none';
                     summaryBox.textContent = 'You have no check-ins at the moment.';
                     summaryBox.style.display = 'block';
                     return;
                 }
 
                 emptyMsg.style.display = 'none';
-                table.style.display = 'table';
+                grid.style.display = 'block';
 
                 data.forEach(row => {
-                    const tr = document.createElement('tr');
-
-                    const statusClass = 'status-' + (row.Status || '').replace(/\s+/g, '-');
-                    const isApproved  = (row.Approved === 1 || row.Approved === '1');
+                    // 1. Data Parsing
+                    const isApproved = (row.Approved === 1 || row.Approved === '1');
                     const approvedLabel = isApproved ? 'Approved' : 'Pending';
-                    const approvedColorClass = isApproved ? 'status-Completed' : 'status-Waiting';
+                    const approvedClass = isApproved 
+                        ? 'bg-green-900/20 text-green-400 border border-green-500/30' 
+                        : 'bg-yellow-900/20 text-yellow-400 border border-yellow-500/30';
+                    
+                    const statusClass = row.Status === 'Completed'
+                        ? 'text-green-400 border-green-500/30 bg-green-900/20'
+                        : 'text-yellow-400 border-yellow-500/30 bg-yellow-900/20';
 
-                    tr.innerHTML = `
-                        <td>${row.Checkin_ID}</td>
-                        <td>${row.HospitalName} (${row.HospitalLocation})</td>
-                        <td>${row.Severity !== null ? row.Severity : '-'}</td>
-                        <td>
-                            <span class="status-tag ${statusClass}">
-                                ${row.Status}
-                            </span>
-                        </td>
-                        <td>${row.Wait_Time !== null ? row.Wait_Time : '-'}</td>
-                        <td>${row.Notes ? row.Notes : ''}</td>
-                        <td>
-                            <span class="status-tag ${approvedColorClass}">
-                                ${approvedLabel}
-                            </span>
-                        </td>
+                    let severityColor = row.Severity <= 2 ? 'text-red-400' : (row.Severity == 3 ? 'text-yellow-400' : 'text-green-400');
+
+                    // 2. Create Card Element
+                    const card = document.createElement('div');
+                    card.className = "bg-black/40 border border-purple-500/20 rounded-2xl p-6 shadow-lg hover:border-purple-500/40 transition-all";
+
+                    // 3. Inject HTML Structure (Vertical Column Order)
+                    card.innerHTML = `
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-6">
+                            
+                            <div>
+                                <span class="block text-[10px] font-bold text-purple-300 uppercase tracking-widest mb-1">ID</span>
+                                <span class="font-mono text-gray-400 text-sm">#${row.Checkin_ID}</span>
+                            </div>
+
+                            <div class="col-span-1 md:col-span-2">
+                                <span class="block text-[10px] font-bold text-purple-300 uppercase tracking-widest mb-1">Hospital</span>
+                                <span class="font-bold text-white text-lg">${row.HospitalName}</span>
+                                <span class="text-xs text-gray-500 block">${row.HospitalLocation}</span>
+                            </div>
+
+                            <div>
+                                <span class="block text-[10px] font-bold text-purple-300 uppercase tracking-widest mb-1">Severity</span>
+                                <span class="text-xl font-black ${severityColor}">${row.Severity !== null ? row.Severity : '-'}</span>
+                            </div>
+
+                            <div>
+                                <span class="block text-[10px] font-bold text-purple-300 uppercase tracking-widest mb-1">Approval</span>
+                                <span class="text-xs font-bold px-2 py-1 rounded inline-block ${approvedClass}">
+                                    ${approvedLabel}
+                                </span>
+                            </div>
+
+                            <div>
+                                <span class="block text-[10px] font-bold text-purple-300 uppercase tracking-widest mb-1">Wait Time</span>
+                                <span class="text-sm text-white font-mono">
+                                    ${row.Wait_Time !== null ? row.Wait_Time + ' min' : '<span class="text-gray-600">-</span>'}
+                                </span>
+                            </div>
+
+                            <div>
+                                <span class="block text-[10px] font-bold text-purple-300 uppercase tracking-widest mb-1">Status</span>
+                                <span class="text-xs font-bold px-2 py-1 rounded border inline-block ${statusClass}">
+                                    ${row.Status}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-purple-500/20">
+                            <span class="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Notes</span>
+                            <div class="line-clamp-5 w-full text-sm text-gray-300 leading-relaxed font-sans" title="${row.Notes}">
+                                ${row.Notes ? row.Notes : '<span class="italic text-gray-600">No notes provided.</span>'}
+                            </div>
+                        </div>
                     `;
 
-                    tbody.appendChild(tr);
+                    grid.appendChild(card);
                 });
 
+                // Summary Box Logic (Kept from your original code)
                 const row = data[0];
                 const isApproved = (row.Approved === 1 || row.Approved === '1');
-
                 if (!row.Checkin_ID) {
                     summaryBox.textContent = 'You have no check-ins at the moment.';
                 } else if (row.Status === 'Waiting' && !isApproved) {
-                    summaryBox.textContent =
-                        'You have 1 check-in that is waiting and pending staff approval.';
+                    summaryBox.textContent = 'You have 1 check-in that is waiting and pending staff approval.';
                 } else if (row.Status === 'Waiting' && isApproved) {
-                    summaryBox.textContent =
-                        'Your check-in is waiting to be seen and has been approved by staff.';
+                    summaryBox.textContent = 'Your check-in is waiting to be seen and has been approved by staff.';
                 } else if (row.Status === 'In-Treatment') {
-                    summaryBox.textContent =
-                        'Your check-in is currently in treatment.';
+                    summaryBox.textContent = 'Your check-in is currently in treatment.';
                 } else if (row.Status === 'Completed') {
-                    summaryBox.textContent =
-                        'Your last check-in has been marked as completed.';
+                    summaryBox.textContent = 'Your last check-in has been marked as completed.';
                 } else if (row.Status === 'Cancelled') {
-                    summaryBox.textContent =
-                        'Your last check-in has been cancelled.';
+                    summaryBox.textContent = 'Your last check-in has been cancelled.';
                 } else {
-                    summaryBox.textContent =
-                        'Your current check-in status is: ' + row.Status + '.';
+                    summaryBox.textContent = 'Your current check-in status is: ' + row.Status + '.';
                 }
-
                 summaryBox.style.display = 'block';
 
             } catch (err) {
@@ -312,8 +341,7 @@ requireRole("patient");
                 const emptyMsg = document.getElementById('emptyMessage');
                 emptyMsg.textContent = 'An error occurred while loading check-ins.';
                 emptyMsg.style.display = 'block';
-                const table = document.getElementById('checkinsTable');
-                table.style.display = 'none';
+                document.getElementById('checkinsGrid').style.display = 'none';
             }
         }
 
