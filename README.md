@@ -8,7 +8,7 @@ config/config.php: python path, db credentials, google maps API key
 backend/ai/.env: AI API Key
 
 <h2>Steps to Run</h2>
-1. Navigate to the ai folder in the terminal: python train_regression.py
+1. Navigate to the ai folder in the terminal: python train_regression.py <br>
 2. We used WAMP to run our project, you can import our citadel.sql for mock data
 
 <h2>Don't get lost! Project map:</h2>
