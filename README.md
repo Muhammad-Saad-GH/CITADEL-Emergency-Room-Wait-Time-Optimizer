@@ -4,7 +4,7 @@ Using AI to help the ER wait time crisis
 pip install scikit-learn google-genai python-dotenv
 
 <h2>Configurations + Keys</h2>
-config/config.php: python path, db credentials, google maps API key
+config/config.php: python path, db credentials, google maps API key <br>
 backend/ai/.env: AI API Key
 
 <h2>Steps to Run</h2>
