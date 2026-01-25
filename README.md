@@ -7,6 +7,7 @@ pip install scikit-learn google-genai python-dotenv
 
 <h2>Configurations + Keys</h2>
 config/config.php: python path, db credentials, google maps API key <br>
+backend/ai/get_wait_time.php: python path
 backend/ai/.env: AI API Key
 
 <h2>Steps to Run</h2>
