@@ -1,6 +1,6 @@
 # Citadel
 
-Using AI to help the ER wait time crisis
+Using AI to solve the ER wait time crisis
 
 <h2>Dependencies</h2>
 pip install scikit-learn google-genai python-dotenv
